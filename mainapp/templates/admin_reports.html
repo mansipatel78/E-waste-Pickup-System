@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reports - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: #2d2d44; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4a6a; border-radius: 5px; }
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e8ecf0;
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.section-header h5 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.section-header h5 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.badge-count {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #056043;
+}
+
+
+.form-label-custom {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-select-custom {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    outline: none;
+    transition: 0.2s;
+    appearance: auto;
+}
+
+.form-select-custom:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+    background: white;
+}
+
+.btn-generate {
+    width: 100%;
+    background: #056043;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.btn-generate:hover {
+    background: #044d36;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5,96,67,0.25);
+}
+
+
+.format-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.format-csv  { background: #dbeafe; color: #1d4ed8; }
+.format-pdf  { background: #fee2e2; color: #dc2626; }
+.format-excel { background: #d1fae5; color: #056043; }
+.format-default { background: #f1f5f9; color: #475569; }
+
+
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+
+.btn-download {
+    background: #056043;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.btn-download:hover {
+    background: #044d36;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(5,96,67,0.25);
+}
+
+
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    min-width: 600px;
+}
+
+.table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 16px;
+}
+
+.table td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.report-num {
+    font-weight: 700;
+    color: #056043;
+    font-family: monospace;
+}
+
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .sidebar { left: -300px; width: 280px; }
+    .sidebar.show { left: 0; }
+
+    .main { margin-left: 0; padding: 20px; }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .overlay.show { display: block; }
+
+    .topbar { padding: 12px 16px; }
+    .welcome-text h4 { font-size: 1rem; }
+    .section-card { padding: 16px; }
+
+    .table th, .table td {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main { padding: 15px; }
+    .section-card { padding: 12px; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-chart-line"></i> Admin</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'admin_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'admin_user' %}">
+        <i class="fas fa-users"></i> Users
+    </a>
+    <a href="{% url 'admin_pickups' %}">
+        <i class="fas fa-truck"></i> Pickup Requests
+    </a>
+    <a href="{% url 'admin_payments' %}">
+        <i class="fas fa-money-bill-wave"></i> Customer Payments
+    </a>
+    <a href="{% url 'admin_settlements' %}">
+        <i class="fas fa-chart-line"></i> Hub Payments
+    </a>
+    <a href="{% url 'admin_salary' %}">
+        <i class="fas fa-money-bill"></i> Agent Salaries
+    </a>
+    <a href="{% url 'admin_reports' %}" class="active">
+        <i class="fas fa-chart-bar"></i> Reports
+    </a>
+    <a href="{% url 'admin_profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+
+<div class="main">
+
+
+    <div class="topbar">
+        <div class="welcome-text">
+            <h4><i class="fas fa-chart-bar"></i> System Reports</h4>
+            <p><i class="fas fa-file-alt"></i> Generate and download system reports</p>
+        </div>
+        <button class="btn d-md-none" onclick="toggleSidebar()" style="background:#056043; color:white; border:none;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+  
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-file-export"></i> Generate Report</h5>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4 col-md-4 col-12">
+                    <label class="form-label-custom">Report Type</label>
+                    <select name="report_type" class="form-select-custom">
+                        <option value="Pickup">
+                            Pickup Report
+                        </option>
+                        <option value="Payment">
+                            Payment Report
+                        </option>
+                        <option value="User">
+                            User Report
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-12">
+                    <label class="form-label-custom">Export Format</label>
+                    <select name="format" class="form-select-custom">
+                        <option value="csv">CSV</option>
+                        <option value="pdf">PDF</option>
+                        <option value="excel">EXCEL</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-12">
+                    <button type="submit" class="btn-generate">
+                        <i class="fas fa-download"></i> Generate Report
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+  
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-history"></i> Report History</h5>
+            <span class="badge-count">
+                <i class="fas fa-file me-1"></i> All Reports
+            </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Report Type</th>
+                        <th>Format</th>
+                        <th>Generated On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reports %}
+                    <tr>
+                        <td>
+                            <span class="report-num">{{ forloop.counter }}</span>
+                        </td>
+                        <td>
+                            <span class="type-badge">
+                                <i class="fas fa-{% if r.report_type == 'Pickup' %}truck{% elif r.report_type == 'Payment' %}money-bill-wave{% else %}users{% endif %}"></i>
+                                {{ r.report_type }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="format-badge format-{{ r.format|lower }}">
+                                <i class="fas fa-{% if r.format|lower == 'pdf' %}file-pdf{% elif r.format|lower == 'csv' %}file-csv{% else %}file-excel{% endif %}"></i>
+                                {{ r.format|upper }}
+                            </span>
+                        </td>
+                        <td>
+                            <i class="fas fa-calendar-alt text-muted me-1"></i>
+                            {{ r.generated_datetime|date:"d M Y H:i" }}
+                        </td>
+                        <td>
+                            <a href="{% url 'download_report' r.id %}" class="btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
+                            <h6>No Reports Generated Yet</h6>
+                            <p class="text-muted">Use the form above to generate your first report.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn');
+
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

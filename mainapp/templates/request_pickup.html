@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Request Pickup - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR STYLES ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #2d2d44;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #4a4a6a;
+    border-radius: 5px;
+}
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+    font-size: 1.2rem;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== SECTION CARD ========== */
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid #e8ecf0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.section-header h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.section-header h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+/* ========== WASTE GRID ========== */
+.waste-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.waste-card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.waste-card:hover {
+    transform: translateY(-4px);
+    border-color: #056043;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.waste-card.selected {
+    border-color: #056043;
+    background: rgba(5,96,67,0.05);
+    box-shadow: 0 4px 12px rgba(5,96,67,0.15);
+}
+
+.waste-card img {
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.waste-card h6 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 8px 0 4px;
+    color: #1e293b;
+}
+
+.waste-card small {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+/* ========== FORM STYLES ========== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: #056043;
+    width: 20px;
+}
+
+.form-control, .form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Readonly input */
+.form-control[readonly] {
+    background: #f8fafc;
+    cursor: default;
+}
+
+/* ========== BUTTON ========== */
+.btn-submit {
+    background: #056043;
+    border: none;
+    padding: 14px 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    width: 100%;
+    color: white;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.btn-submit:hover {
+    background: #0a7a55;
+    transform: translateY(-2px);
+}
+
+.btn-submit i {
+    margin-right: 10px;
+}
+
+/* ========== ROW GRID ========== */
+.row-custom {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* ========== ALERT ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -300px;
+        width: 280px;
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+    
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+    
+    .overlay.show {
+        display: block;
+    }
+    
+    .section-card {
+        padding: 20px;
+    }
+    
+    .waste-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .waste-card {
+        padding: 12px 8px;
+    }
+    
+    .waste-card img {
+        height: 50px;
+    }
+    
+    .waste-card h6 {
+        font-size: 0.75rem;
+    }
+    
+    .row-custom {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .topbar {
+        padding: 12px 16px;
+    }
+    
+    .welcome-text h4 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+    
+    .section-card {
+        padding: 16px;
+    }
+    
+    .waste-grid {
+        gap: 10px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-recycle"></i> EPS Panel</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'customer_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'request_pickup' %}" class="active">
+        <i class="fas fa-truck"></i> Request Pickup
+    </a>
+    <a href="{% url 'my_request' %}">
+        <i class="fas fa-list"></i> My Requests
+    </a>
+    <a href="{% url 'customer_payment' %}">
+        <i class="fas fa-money-bill-wave"></i> Payments
+    </a>
+    <a href="{% url 'feedback' %}">
+        <i class="fas fa-star"></i> Feedback
+    </a>
+    <a href="{% url 'profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="welcome-text">
+        <h4><i class="fas fa-plus-circle"></i> Request E-Waste Pickup</h4>
+        <p><i class="fas fa-calendar-alt"></i> Schedule your pickup request</p>
+    </div>
+    <button class="btn btn-success d-md-none" onclick="toggleSidebar()" style="background:#056043; border:none;">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+</div>
+
+<!-- MESSAGES -->
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- MAIN FORM CARD -->
+<div class="section-card">
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="hidden" name="waste_type" id="selected_waste">
+
+<!-- SELECT E-WASTE SECTION -->
+<div class="section-header">
+    <h4><i class="fas fa-microchip"></i> Select E-Waste Items</h4>
+    <span class="text-muted small">Click on items to select</span>
+</div>
+
+<div class="waste-grid">
+    {% for w in wastes %}
+    <div class="waste-card" onclick="selectWaste(this,'{{ w.id }}','{{ w.waste_type }}')">
+        <img src="/static/images/{{ w.waste_type|lower }}.png" alt="{{ w.waste_type }}" onerror="this.src='/static/images/default.png'">
+        <h6>{{ w.waste_type }}</h6>
+        <small class="text-muted">{{ w.category }}</small>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Selected Waste Display -->
+<div class="form-group">
+    <label><i class="fas fa-check-circle"></i> Selected Waste</label>
+    <input type="text" id="waste_display" class="form-control" placeholder="No items selected" readonly>
+</div>
+
+<!-- PICKUP DATE & ADDRESS -->
+<div class="row-custom">
+    <div class="form-group">
+        <label><i class="fas fa-calendar"></i> Pickup Date</label>
+        <input type="date" name="pickup_date" class="form-control" required min="{{ today }}">
+    </div>
+    
+    <div class="form-group">
+        <label><i class="fas fa-map-marker-alt"></i> Pickup Address</label>
+        <textarea name="address" class="form-control" placeholder="Enter your complete pickup address" required></textarea>
+    </div>
+</div>
+
+<!-- LOCATION DETAILS -->
+<div class="row-custom">
+    <div class="form-group">
+        <label><i class="fas fa-city"></i> City</label>
+        <input type="text" class="form-control" value="Ahmedabad" readonly>
+    </div>
+    
+    <div class="form-group">
+        <label><i class="fas fa-layer-group"></i> Zone</label>
+        <select name="zone" id="zoneDropdown" class="form-select" onchange="loadAreas()" required>
+            <option value="">Select Zone</option>
+            {% for z in zone %}
+            <option value="{{ z.id }}">{{ z.zone_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label><i class="fas fa-location-dot"></i> Area</label>
+        <select name="area" id="areaDropdown" class="form-select" required>
+            <option value="">Select Area</option>
+            {% for a in area %}
+            <option value="{{ a.id }}">{{ a.area_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<!-- ADDITIONAL NOTES -->
+<div class="form-group">
+    <label><i class="fas fa-pen"></i> Additional Notes</label>
+    <textarea name="notes" class="form-control" placeholder="Any special instructions or remarks..."></textarea>
+</div>
+
+<!-- SUBMIT BUTTON -->
+<button type="submit" class="btn-submit">
+    <i class="fas fa-paper-plane"></i> Submit Pickup Request
+</button>
+
+</form>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Toggle sidebar on mobile
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn-success');
+    
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+
+// Waste selection logic
+let selectedWasteIds = [];
+let selectedNames = [];
+
+function selectWaste(card, id, name) {
+    card.classList.toggle("selected");
+    
+    if(selectedWasteIds.includes(id)) {
+        selectedWasteIds = selectedWasteIds.filter(x => x != id);
+        selectedNames = selectedNames.filter(x => x != name);
+    } else {
+        selectedWasteIds.push(id);
+        selectedNames.push(name);
+    }
+    
+    document.getElementById("selected_waste").value = selectedWasteIds.join(",");
+    document.getElementById("waste_display").value = selectedNames.join(", ");
+}
+
+// Load areas based on selected zone
+function loadAreas() {
+    let zoneId = document.getElementById("zoneDropdown").value;
+    
+    fetch('/get-areas/${zoneId}/')
+    .then(res => res.json())
+    .then(data => {
+        let areaDropdown = document.getElementById("areaDropdown");
+        areaDropdown.innerHTML = '<option value="">Select Area</option>';
+        
+        data.areas.forEach(area => {
+            areaDropdown.innerHTML += '<option value="${area.id}">${area.name}</option>';
+        });
+    })
+    .catch(error => console.log('Error loading areas:', error));
+}
+
+// Set min date for pickup (today)
+const today = new Date().toISOString().split('T')[0];
+const dateInput = document.querySelector('input[name="pickup_date"]');
+if(dateInput) {
+    dateInput.min = today;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,990 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Services - EPS{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ========== HERO ========== */
+.hero-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white;
+    padding: 90px 0 80px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 60px;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: rgba(46,204,113,0.07);
+    border-radius: 50%;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -40px;
+    width: 260px; height: 260px;
+    background: rgba(5,96,67,0.08);
+    border-radius: 50%;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.hero-title span {
+    color: #2ecc71;
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    opacity: 0.72;
+    margin-bottom: 0;
+}
+
+/* ========== SECTION TITLES ========== */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+}
+
+.section-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 40px;
+}
+
+.section-title span {
+    color: #056043;
+}
+
+/* ========== SERVICE CARDS ========== */
+.service-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e8ecf0;
+    padding: 28px 24px;
+    height: 100%;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, #056043, #2ecc71);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    border-color: #056043;
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
+}
+
+.service-icon-wrap {
+    width: 64px;
+    height: 64px;
+    background: rgba(5,96,67,0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    transition: all 0.3s;
+}
+
+.service-card:hover .service-icon-wrap {
+    background: #056043;
+}
+
+.service-icon-wrap i {
+    font-size: 1.6rem;
+    color: #056043;
+    transition: color 0.3s;
+}
+
+.service-card:hover .service-icon-wrap i {
+    color: white;
+}
+
+.service-card h5 {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    font-size: 0.83rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.service-card ul li {
+    font-size: 0.82rem;
+    color: #475569;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.service-card ul li i {
+    color: #056043;
+    font-size: 0.75rem;
+}
+
+/* ========== PRICING TABLE ========== */
+.pricing-section {
+    background: #f8fafc;
+    padding: 70px 0;
+}
+
+.pricing-table {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.pricing-table .table {
+    margin: 0;
+}
+
+.pricing-table .table thead tr {
+    background: #1a1a2e;
+}
+
+.pricing-table .table thead th {
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px 18px;
+    border: none;
+    font-weight: 600;
+}
+
+.pricing-table .table td {
+    padding: 14px 18px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.pricing-table .table tbody tr:hover {
+    background: #f1fdf7;
+}
+
+.price-value {
+    font-weight: 700;
+    color: #056043;
+    font-size: 0.9rem;
+}
+
+.pricing-note {
+    background: #e0f2fe;
+    border: none;
+    border-radius: 14px;
+    padding: 18px 22px;
+    color: #0891b2;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.pricing-note i {
+    color: #0891b2;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ========== HOW IT WORKS ========== */
+.steps-section {
+    padding: 70px 0;
+}
+
+.step-card {
+    text-align: center;
+    padding: 10px;
+}
+
+.step-num {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #056043, #0a8a5f);
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 20px rgba(5,96,67,0.25);
+    position: relative;
+}
+
+.step-card h4 {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.step-card p {
+    font-size: 0.83rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Connector line between steps */
+.steps-row {
+    position: relative;
+}
+
+.steps-row::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 20%;
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, #056043, #2ecc71);
+    opacity: 0.25;
+}
+
+/* ========== ACCEPTS SECTION ========== */
+.accepts-section {
+    background: #f8fafc;
+    padding: 70px 0;
+}
+
+.accept-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8ecf0;
+    padding: 28px 20px;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+.accept-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+    border-color: rgba(5,96,67,0.3);
+}
+
+.accept-card i {
+    font-size: 2rem;
+    color: #056043;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.accept-card h5 {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.accept-card p {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ========== WHY US ========== */
+.why-section {
+    padding: 70px 0;
+}
+
+.why-item {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.why-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(5,96,67,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.why-icon i {
+    font-size: 1.1rem;
+    color: #056043;
+}
+
+.why-item h5 {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.why-item p {
+    font-size: 0.83rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Stats card */
+.stats-card {
+    background: linear-gradient(135deg, #1a1a2e 0%, #056043 100%);
+    border-radius: 20px;
+    padding: 36px 28px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+.stats-card h3 {
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.stats-card h3 i {
+    color: #2ecc71;
+}
+
+.stat-item {
+    margin-bottom: 20px;
+}
+
+.stat-item h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    color: #2ecc71;
+}
+
+.stat-item p {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    margin: 0;
+}
+
+/* ========== FAQ ========== */
+.faq-section {
+    background: #f8fafc;
+    padding: 70px 0;
+}
+
+.accordion-item {
+    border: 1px solid #e8ecf0 !important;
+    border-radius: 12px !important;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.accordion-button {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e293b;
+    background: white;
+    padding: 16px 20px;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #f1fdf7;
+    color: #056043;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    filter: none;
+}
+
+.accordion-body {
+    font-size: 0.85rem;
+    color: #64748b;
+    padding: 14px 20px 18px;
+    line-height: 1.7;
+}
+
+/* ========== CTA ========== */
+.cta-section {
+    background: linear-gradient(135deg, #056043 0%, #0a8a5f 100%);
+    padding: 70px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+.cta-section h2 {
+    font-weight: 800;
+    font-size: 1.9rem;
+    color: white;
+    margin-bottom: 14px;
+}
+
+.cta-section p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+}
+
+.btn-cta-primary {
+    background: white;
+    color: #056043;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s;
+}
+
+.btn-cta-primary:hover {
+    background: #f1fdf7;
+    color: #056043;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.btn-cta-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s;
+}
+
+.btn-cta-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2rem; }
+    .steps-row::before { display: none; }
+    .section-title { font-size: 1.5rem; }
+    .stats-card { margin-top: 30px; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="container text-center" style="position:relative; z-index:1;">
+        <h1 class="hero-title">Our <span>Services</span></h1>
+        <p class="hero-subtitle">Comprehensive e-waste management solutions for everyone</p>
+    </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="py-2 pb-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">What We <span>Offer</span></h2>
+            <p class="section-subtitle">End-to-end e-waste pickup and recycling solutions</p>
+        </div>
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon-wrap">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h5>Doorstep Pickup</h5>
+                    <p>Schedule pickup from your home or office at your convenience. Our agents arrive at your scheduled time.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle"></i> Free pickup service</li>
+                        <li><i class="fas fa-check-circle"></i> Flexible timing</li>
+                        <li><i class="fas fa-check-circle"></i> Same-day service available</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon-wrap">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h5>Instant Payment</h5>
+                    <p>Get paid instantly for your e-waste. Multiple payment options including UPI, bank transfer, and cash.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle"></i> Instant payment</li>
+                        <li><i class="fas fa-check-circle"></i> Multiple payment methods</li>
+                        <li><i class="fas fa-check-circle"></i> Transparent pricing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon-wrap">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h5>Corporate Solutions</h5>
+                    <p>Bulk e-waste pickup for businesses, schools, and institutions. Certificate of destruction and monthly reporting.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle"></i> Bulk pickup discounts</li>
+                        <li><i class="fas fa-check-circle"></i> Certificate of disposal</li>
+                        <li><i class="fas fa-check-circle"></i> Monthly audit reports</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon-wrap">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h5>Safe Recycling</h5>
+                    <p>100% safe recycling at authorized centers. Zero landfill policy and environmentally compliant processing.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle"></i> Authorized recycling hubs</li>
+                        <li><i class="fas fa-check-circle"></i> Environment compliant</li>
+                        <li><i class="fas fa-check-circle"></i> Recycling certificate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon-wrap">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h5>24/7 Support</h5>
+                    <p>Our support team is always ready to help you with any queries or issues regarding your e-waste pickup.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle"></i> 24/7 phone & email</li>
+                        <li><i class="fas fa-check-circle"></i> Live chat assistance</li>
+                        <li><i class="fas fa-check-circle"></i> Query resolution in 24 hours</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRICING TABLE -->
+<section class="pricing-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Pricing & <span>Value Guide</span></h2>
+            <p class="section-subtitle">Transparent pricing for common e-waste items</p>
+        </div>
+
+        <div class="pricing-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Item Type</th>
+                        <th>Examples</th>
+                        <th>Condition</th>
+                     
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Mobile Phones</strong></td>
+                        <td>Smartphones, Feature phones, Tablets</td>
+                        <td>Working/Non-working</td>
+
+
+                    </tr>
+                    <tr>
+                        <td><strong>Laptops & Computers</strong></td>
+                        <td>Laptops, Desktops, Servers</td>
+                        <td>Working/Non-working</td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>Televisions</strong></td>
+                        <td>LED, LCD, Plasma, CRT</td>
+                        <td>Any condition</td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>Printers & Scanners</strong></td>
+                        <td>Inkjet, Laser, All-in-One</td>
+                        <td>Working/Non-working</td>
+      
+                    </tr>
+                    <tr>
+                        <td><strong>Home Appliances</strong></td>
+                        <td>Microwave, Mixer, Toaster</td>
+                        <td>Any condition</td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>Batteries</strong></td>
+                        <td>Phone batteries, Power banks</td>
+                        <td>Any condition</td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>AC & Refrigerator</strong></td>
+                        <td>Air conditioners, Refrigerators</td>
+                        <td>Working/Non-working</td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>Washing Machine</strong></td>
+                        <td>Washing machines, Dryers</td>
+                        <td>Any condition</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pricing-note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+                <strong>Note:</strong> Final value is determined after inspection by our agent based on brand, model,
+                condition, and market rates. Free pickup for items above ₹200 value.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How It <span>Works</span></h2>
+            <p class="section-subtitle">Simple 4-step process from request to payment</p>
+        </div>
+
+        <div class="row steps-row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Register</h4>
+                    <p>Create your free account as customer, agent, or recycling hub.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Schedule</h4>
+                    <p>Request pickup with date, time, and e-waste details.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Pickup</h4>
+                    <p>Agent visits your location, verifies and collects the waste.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Payment</h4>
+                    <p>Receive instant payment and recycling certificate.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT WE ACCEPT -->
+<section class="accepts-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">What We <span>Accept</span></h2>
+            <p class="section-subtitle">We accept a wide range of electronic waste items</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h5>Mobile Devices</h5>
+                    <p>Smartphones, Tablets, Smartwatches</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-laptop"></i>
+                    <h5>Computers</h5>
+                    <p>Laptops, Desktops, Servers</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-tv"></i>
+                    <h5>Display Devices</h5>
+                    <p>TVs, Monitors, Projectors</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-print"></i>
+                    <h5>Printing Devices</h5>
+                    <p>Printers, Scanners, Copiers</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-battery-full"></i>
+                    <h5>Batteries</h5>
+                    <p>All types of batteries</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="accept-card">
+                    <i class="fas fa-microchip"></i>
+                    <h5>IT Equipment</h5>
+                    <p>Routers, Switches, Cables</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="section-title mb-4">Why Choose <span>EPS?</span></h2>
+
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <h5>Authorized & Certified</h5>
+                        <p>Government authorized e-waste recycler with all necessary certifications.</p>
+                    </div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <h5>Data Security Guaranteed</h5>
+                        <p>100% data destruction with certificate of destruction.</p>
+                    </div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <div>
+                        <h5>Fast & Reliable Service</h5>
+                        <p>Pickup within 24-48 hours, instant payment processing.</p>
+                    </div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-globe"></i></div>
+                    <div>
+                        <h5>Eco-Friendly Process</h5>
+                        <p>Zero landfill policy, 95% recycling rate.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="stats-card">
+                    <h3><i class="fas fa-chart-bar"></i> Our Impact So Far</h3>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h2>500+</h2>
+                                <p>Happy Customers</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h2>2.5K+</h2>
+                                <p>Items Recycled</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h2>50+</h2>
+                                <p>Active Agents</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h2>5+</h2>
+                                <p>Recycling Hubs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            <p class="section-subtitle">Quick answers to common questions</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How much will I get paid for my e-waste?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Payment depends on the type, brand, model, and condition of your e-waste. You can check estimated values in our pricing table above. Final payment is determined after inspection by our agent.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How long does pickup take?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Usually within 24-48 hours of request. You can choose your preferred date and time during scheduling. For urgent requests, we offer same-day service (subject to agent availability).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer multiple payment options: UPI (Google Pay, PhonePe, Paytm), bank transfer, and cash payment at pickup. Payment is made immediately after inspection and collection.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Is pickup service free?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, doorstep pickup is completely free for items with estimated value above ₹200. For items below this value, a nominal pickup charge may apply.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                Do you recycle all types of e-waste?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We accept almost all types of electronic waste including mobile phones, laptops, desktops, televisions, printers, batteries, and home appliances.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                Is my data safe?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! We provide 100% data destruction service for all storage devices. You can request a Certificate of Data Destruction for your records.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

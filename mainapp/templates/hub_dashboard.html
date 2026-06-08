@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recycle Hub Dashboard - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% load static %}
+<link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: #2d2d44; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4a6a; border-radius: 5px; }
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== STAT CARDS ========== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.3s;
+    border: 1px solid #e8ecf0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: #056043;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(5,96,67,0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.stat-icon i {
+    font-size: 1.4rem;
+    color: #056043;
+}
+
+.stat-info h6 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.stat-info h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* ========== SECTION CARD ========== */
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e8ecf0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.section-header h5 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.section-header h5 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.badge-count {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #056043;
+}
+
+/* ========== TABLE ========== */
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    min-width: 550px;
+}
+
+.table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 16px;
+}
+
+.table td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* ========== BADGES ========== */
+.badge {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+}
+
+.badge-verified  { background: #d1fae5; color: #056043; }
+.badge-transferred { background: #dbeafe; color: #1d4ed8; }
+.badge-pending   { background: #fef3c7; color: #d97706; }
+
+/* ========== ALERTS ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .sidebar { left: -300px; width: 280px; }
+    .sidebar.show { left: 0; }
+
+    .main { margin-left: 0; padding: 20px; }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .overlay.show { display: block; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .topbar { padding: 12px 16px; }
+    .welcome-text h4 { font-size: 1rem; }
+    .section-card { padding: 16px; }
+
+    .table th, .table td {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main { padding: 15px; }
+    .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-recycle"></i> Gujarat EcoCycle</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'hub_dashboard' %}" class="active">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'received_waste' %}">
+        <i class="fas fa-recycle"></i> Received Waste
+    </a>
+    <a href="{% url 'hub_history' %}">
+        <i class="fas fa-money-bill-wave"></i> Payment History
+    </a>
+    <a href="{% url 'hub_report' %}">
+        <i class="fas fa-chart-line"></i> Reports
+    </a>
+    <a href="{% url 'hub_profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="welcome-text">
+            <h4><i class="fas fa-recycle"></i> Recycle Hub Dashboard</h4>
+            <p><i class="fas fa-chart-pie"></i> Hub Overview & Waste Transactions</p>
+        </div>
+        <button class="btn d-md-none" onclick="toggleSidebar()" style="background:#056043; color:white; border:none;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+    <!-- ALERTS -->
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-info">
+                <h6>Total Received</h6>
+                <h3>{{ total_received }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h6>Verified Waste</h6>
+                <h3>{{ verified }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-weight-hanging"></i>
+            </div>
+            <div class="stat-info">
+                <h6>Total Quantity</h6>
+                <h3>{{ total_quantity }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT TRANSACTIONS TABLE -->
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-history"></i> Recent Waste Transactions</h5>
+            <span class="badge-count">
+                <i class="fas fa-recycle me-1"></i> Latest Records
+            </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Waste Type</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr>
+                        <td>
+                            <span style="font-weight:700; color:#056043; font-family:monospace;">
+                                {{ forloop.counter }}
+                            </span>
+                        </td>
+                        <td>
+                            <i class="fas fa-recycle text-muted me-2"></i>
+                            {{ t.waste.waste_type }}
+                        </td>
+                        <td>{{ t.waste_quantity }}</td>
+                        <td>
+                            {% if t.status == "Verified" %}
+                                <span class="badge badge-verified">
+                                    <i class="fas fa-check-circle me-1"></i> Verified
+                                </span>
+                            {% elif t.status == "Transferred" %}
+                                <span class="badge badge-transferred">
+                                    <i class="fas fa-exchange-alt me-1"></i> Transferred
+                                </span>
+                            {% else %}
+                                <span class="badge badge-pending">
+                                    <i class="fas fa-hourglass-half me-1"></i> {{ t.status }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <i class="fas fa-calendar-alt text-muted me-1"></i>
+                            {{ t.transaction_time|date:"d M Y" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
+                            <h6>No Waste Received Yet</h6>
+                            <p class="text-muted">Waste transactions will appear here once received.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn');
+
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

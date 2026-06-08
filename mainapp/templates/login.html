@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% block title %}Login - EPS{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+
+.login-wrapper {
+    min-height: calc(100vh - 72px - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 15px;
+    background: #eef2f7;
+}
+
+.login-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    padding: 36px 40px;
+    width: 100%;
+    max-width: 460px;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.form-header .brand-icon {
+    width: 54px;
+    height: 54px;
+    background: rgba(5,96,67,0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.form-header .brand-icon i {
+    font-size: 1.4rem;
+    color: #056043;
+}
+
+.form-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Input groups */
+.input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-field {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 13px 44px 13px 14px;
+    font-size: 0.88rem;
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s;
+    display: block;
+}
+
+.input-field:focus {
+    border-color: #056043;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.08);
+}
+
+.floting-label {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all 0.2s;
+    background: transparent;
+    padding: 0 3px;
+    font-weight: 500;
+}
+
+.input-field:focus ~ .floting-label,
+.input-field:not(:placeholder-shown) ~ .floting-label {
+    top: 0;
+    font-size: 0.68rem;
+    color: #056043;
+    background: white;
+    font-weight: 600;
+}
+
+.email-icon,
+.eye-icon {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.eye-icon {
+    cursor: pointer;
+    pointer-events: all;
+    transition: color 0.2s;
+}
+
+.eye-icon:hover { color: #056043; }
+
+.email-icon svg, .eye-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* Remember me + forgot password row */
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -4px;
+}
+
+.remeber-me {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.checkbox-field {
+    width: 15px;
+    height: 15px;
+    accent-color: #056043;
+    cursor: pointer;
+}
+
+.remeber-me label {
+    font-size: 0.82rem;
+    color: #64748b;
+    cursor: pointer;
+    margin: 0;
+}
+
+.form-link {
+    font-size: 0.82rem;
+    color: #056043;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-link:hover {
+    text-decoration: underline;
+}
+
+/* Submit button */
+.form-btn-submit {
+    width: 100%;
+    background: #056043;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-btn-submit:hover {
+    background: #044d36;
+    box-shadow: 0 4px 14px rgba(5,96,67,0.25);
+}
+
+/* Bottom link */
+.form-bottom {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.83rem;
+    color: #64748b;
+}
+
+.form-bottom a {
+    color: #056043;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-bottom a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .login-card { padding: 28px 22px; }
+    .form-header h1 { font-size: 1.2rem; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <div class="form-header">
+            <div class="brand-icon">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <h1>Welcome Back</h1>
+            <p>Please enter your details to login</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Email -->
+            <div class="input-group">
+                <input type="email" id="email" placeholder="" class="input-field" name="email" required>
+                <label for="email" class="floting-label">Email Address</label>
+                <div class="email-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+                <input type="password" id="password" placeholder="" class="input-field" name="password" required>
+                <label for="password" class="floting-label">Password</label>
+                <div class="eye-icon" onclick="togglePassword()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Remember me + Forgot password -->
+            <div class="checkbox-group">
+                <div class="remeber-me">
+                    <input type="checkbox" id="remeber-me-checkbox" class="checkbox-field" name="remember_me" value="1">
+                    <label for="remeber-me-checkbox">Remember me</label>
+                </div>
+                <a href="{% url 'forgot' %}" class="form-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="form-btn form-btn-submit">Login</button>
+        </form>
+
+        <div class="form-bottom">
+            Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById("password");
+    const eyeIcon = document.querySelector(".eye-icon");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>';
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+}
+</script>
+{% endblock %}

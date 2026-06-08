@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assigned Pickups - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: #2d2d44; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4a6a; border-radius: 5px; }
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== SECTION CARD ========== */
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e8ecf0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.section-header h5 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.section-header h5 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.section-header .badge-count {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #056043;
+}
+
+/* ========== TABLE ========== */
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    min-width: 600px;
+}
+
+.table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 16px;
+}
+
+.table td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* ========== BADGES ========== */
+.badge {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+}
+
+.badge-warning  { background: #fef3c7; color: #d97706; }
+.badge-success  { background: #d1fae5; color: #056043; }
+.badge-primary  { background: #dbeafe; color: #1d4ed8; }
+.badge-info     { background: #e0f2fe; color: #0369a1; }
+.badge-secondary{ background: #f1f5f9; color: #475569; }
+
+/* ========== ACTION BUTTONS ========== */
+.btn-action {
+    padding: 7px 16px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.btn-start {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.btn-start:hover {
+    background: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.btn-verify {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.btn-verify:hover {
+    background: #fde68a;
+    color: #d97706;
+}
+
+.btn-complete {
+    background: #d1fae5;
+    color: #056043;
+}
+
+.btn-complete:hover {
+    background: #a7f3d0;
+    color: #056043;
+}
+
+.done-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #056043;
+    background: #d1fae5;
+    padding: 7px 14px;
+    border-radius: 10px;
+}
+
+/* ========== ALERT ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -300px;
+        width: 280px;
+    }
+
+    .sidebar.show { left: 0; }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .overlay.show { display: block; }
+
+    .topbar { padding: 12px 16px; }
+    .welcome-text h4 { font-size: 1rem; }
+    .section-card { padding: 16px; }
+    .table th, .table td { padding: 10px 12px; font-size: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+    .main { padding: 15px; }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-hard-hat"></i> Agent Panel</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'agent_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'assigned_pickups' %}" class="active">
+        <i class="fas fa-list"></i> Assigned Pickups
+    </a>
+    <a href="{% url 'pickup_history' %}">
+        <i class="fas fa-history"></i> Pickup History
+    </a>
+    <a href="{% url 'agent_salary' %}">
+        <i class="fas fa-wallet"></i> My Salary
+    </a>
+    <a href="{% url 'agent_profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="welcome-text">
+            <h4><i class="fas fa-list"></i> Assigned Pickups</h4>
+            <p><i class="fas fa-truck"></i> Manage your assigned pickup requests</p>
+        </div>
+        <button class="btn d-md-none" onclick="toggleSidebar()" style="background:#056043; color:white; border:none; border-radius:10px;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+    <!-- MESSAGES -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- TABLE CARD -->
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-truck"></i> Pickup Requests</h5>
+            <span class="badge-count">
+                <i class="fas fa-clipboard-list me-1"></i> All Assigned
+            </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in recent_pickups %}
+                    <tr>
+                        <td><strong>{{ forloop.counter }}</strong></td>
+                        <td>
+                            <i class="fas fa-user-circle text-muted me-2"></i>
+                            {{ p.customer.username }}
+                        </td>
+                        <td>
+                            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+                            {{ p.pickup_address }}
+                        </td>
+                        <td>
+                            {% if p.status == "Assigned" %}
+                                <span class="badge badge-primary">
+                                    <i class="fas fa-user-check me-1"></i> Assigned
+                                </span>
+                            {% elif p.status == "Started" %}
+                                <span class="badge badge-info">
+                                    <i class="fas fa-play-circle me-1"></i> Started
+                                </span>
+                            {% elif p.status == "Verified" %}
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-shield-alt me-1"></i> Verified
+                                </span>
+                            {% elif p.status == "Completed" %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check-circle me-1"></i> Completed
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.status == "Assigned" %}
+                                <a href="{% url 'start_pickup' p.id %}" class="btn-action btn-start">
+                                    <i class="fas fa-play"></i> Start
+                                </a>
+                            {% elif p.status == "Started" %}
+                                <a href="{% url 'verify_pickup' p.id %}" class="btn-action btn-verify">
+                                    <i class="fas fa-check"></i> Verify
+                                </a>
+                            {% elif p.status == "Verified" %}
+                                <a href="{% url 'complete_pickup' p.id %}" class="btn-action btn-complete">
+                                    <i class="fas fa-flag-checkered"></i> Complete
+                                </a>
+                            {% else %}
+                                <span class="done-label">
+                                    <i class="fas fa-check-double"></i> Done
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3" style="display:block;margin-bottom:12px;"></i>
+                            <h6>No Assigned Pickups</h6>
+                            <p class="text-muted">No pickups have been assigned to you yet.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn');
+
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

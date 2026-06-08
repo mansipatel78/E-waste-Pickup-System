@@ -1,0 +1,473 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - EPS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ========== HERO ========== */
+    .contact-hero {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-hero::before {
+        content: '';
+        position: absolute;
+        top: -80px; left: 50%;
+        transform: translateX(-50%);
+        width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(46,204,113,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .contact-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(46,204,113,0.12);
+        border: 1px solid rgba(46,204,113,0.25);
+        color: #2ecc71;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 6px 16px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-hero h1 span { color: #2ecc71; }
+
+    .contact-hero p {
+        color: rgba(255,255,255,0.6);
+        font-size: 1rem;
+        max-width: 480px;
+        margin: 0 auto;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ========== SECTION ========== */
+    .contact-section { padding: 80px 0; background: #eef2f7; }
+
+    .section-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #056043;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        margin-bottom: 12px;
+    }
+
+    .section-sub { color: #64748b; font-size: 0.95rem; }
+
+    /* ========== FORM CARD ========== */
+    .form-card {
+        background: #fff;
+        border-radius: 20px;
+        border: 1px solid #e8ecf0;
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        background: linear-gradient(135deg, #056043, #2ecc71);
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-card-header h5 {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .form-card-header i { color: rgba(255,255,255,0.85); font-size: 1rem; }
+
+    .form-card-body { padding: 32px 28px; }
+
+    .form-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 6px;
+    }
+
+    .form-control, .form-select {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 11px 14px;
+        font-size: 0.88rem;
+        color: #1e293b;
+        background: #f8fafc;
+        transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #056043;
+        box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+        background: #fff;
+        outline: none;
+    }
+
+    textarea.form-control { resize: vertical; min-height: 130px; }
+
+    .btn-send {
+        background: #056043;
+        color: #fff;
+        border: none;
+        padding: 13px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition: background 0.25s, box-shadow 0.25s;
+        cursor: pointer;
+    }
+
+    .btn-send:hover {
+        background: #2ecc71;
+        color: #1a1a2e;
+        box-shadow: 0 8px 20px rgba(46,204,113,0.3);
+    }
+
+    /* ========== INFO CARDS ========== */
+    .info-card {
+        background: #fff;
+        border-radius: 18px;
+        border: 1px solid #e8ecf0;
+        padding: 22px 20px;
+        margin-bottom: 16px;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .info-card:last-child { margin-bottom: 0; }
+
+    .info-card:hover {
+        box-shadow: 0 10px 24px rgba(0,0,0,0.07);
+        border-color: rgba(5,96,67,0.18);
+    }
+
+    .info-card-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .info-card-icon {
+        width: 38px;
+        height: 38px;
+        background: rgba(5,96,67,0.09);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .info-card-icon i { color: #056043; font-size: 0.95rem; }
+
+    .info-card-title h5 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .info-card p {
+        font-size: 0.83rem;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.75;
+    }
+
+    .info-card p strong {
+        color: #334155;
+        font-weight: 600;
+    }
+
+    /* ========== FAQ ========== */
+    .faq-section { padding: 80px 0; background: #fff; }
+
+    .accordion-item {
+        border: 1px solid #e8ecf0;
+        border-radius: 14px !important;
+        margin-bottom: 12px;
+        overflow: hidden;
+    }
+
+    .accordion-button {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1e293b;
+        background: #f8fafc;
+        padding: 18px 22px;
+        border-radius: 14px !important;
+        box-shadow: none !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background: rgba(5,96,67,0.06);
+        color: #056043;
+    }
+
+    .accordion-button::after {
+        filter: none;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        filter: none;
+    }
+
+    .accordion-body {
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.75;
+        padding: 16px 22px 20px;
+        background: #fff;
+        border-top: 1px solid #e8ecf0;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 992px) {
+        .contact-hero h1 { font-size: 2.1rem; }
+        .contact-section { padding: 60px 0; }
+        .faq-section { padding: 60px 0; }
+    }
+
+    @media (max-width: 768px) {
+        .contact-hero h1 { font-size: 1.7rem; }
+        .section-title { font-size: 1.6rem; }
+        .form-card-body { padding: 22px 18px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="contact-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="contact-hero-badge">
+                    <i class="fas fa-headset"></i> Get In Touch
+                </div>
+                <h1>Contact <span>Us</span></h1>
+                <p>We're here to help with all your e-waste disposal needs</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- FORM -->
+            <div class="col-lg-8">
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <i class="fas fa-envelope"></i>
+                        <h5>Send us a Message</h5>
+                    </div>
+                    <div class="form-card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Your Name *</label>
+                                    <input type="text" class="form-control" name="name" required placeholder="Enter your name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" name="email" required placeholder="Enter your email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" name="phone_no" pattern="[0-9]{10}" placeholder="10-digit number">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Subject *</label>
+                                    <select class="form-select" name="subject" required>
+                                        <option value="">Select Subject</option>
+                                        <option>Pickup Query</option>
+                                        <option>Payment Issue</option>
+                                        <option>Agent Feedback</option>
+                                        <option>Business Partnership</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Message *</label>
+                                    <textarea class="form-control" rows="5" name="message" required placeholder="Write your message here..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn-send">
+                                        <i class="fas fa-paper-plane"></i> Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFO CARDS -->
+            <div class="col-lg-4">
+                <div class="info-card">
+                    <div class="info-card-title">
+                        <div class="info-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h5>Visit Us</h5>
+                    </div>
+                    <p>
+                        <strong>L.J. College of Computer Applications</strong><br>
+                        Opp. Gujarat Vidhyapith,<br>
+                        Ashram Road,<br>
+                        Ahmedabad - 380014<br>
+                        Gujarat, India
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-title">
+                        <div class="info-card-icon"><i class="fas fa-phone"></i></div>
+                        <h5>Call Us</h5>
+                    </div>
+                    <p>
+                        <strong>Customer Support:</strong><br>
+                        +91 80002 77456<br>
+                        <strong>Business Enquiries:</strong><br>
+                        +91 95121 98391<br>
+                        <strong>Timings:</strong> 9 AM - 6 PM (Mon-Sat)
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-title">
+                        <div class="info-card-icon"><i class="fas fa-envelope"></i></div>
+                        <h5>Email Us</h5>
+                    </div>
+                    <p>
+                        <strong>General:</strong> info@eps.com<br>
+                        <strong>Support:</strong> support@eps.com<br>
+                        <strong>Partnership:</strong> partner@eps.com
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">Quick Answers</p>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-sub">Quick answers to common questions</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How much will I get paid for my e-waste?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Payment depends on the type, brand, model, and condition of your e-waste.
+                                You can check estimated values on our Services page. Final payment is
+                                determined after inspection by our agent.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How long does pickup take?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Usually within 24-48 hours of request. You can choose your preferred
+                                date and time during scheduling. For urgent requests, we offer same-day
+                                service (subject to agent availability).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer multiple payment options: UPI (Google Pay, PhonePe, Paytm),
+                                bank transfer, and cash payment at pickup. Payment is made immediately
+                                after inspection and collection.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Is pickup service free?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, doorstep pickup is completely free for items with estimated value
+                                above ₹200. For items below this value or in remote areas, a nominal
+                                pickup charge may apply.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Agent Dashboard - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR STYLES ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #2d2d44;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #4a4a6a;
+    border-radius: 5px;
+}
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+    font-size: 1.2rem;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== STATS GRID ========== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.3s;
+    border: 1px solid #e8ecf0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #056043;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(5,96,67,0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+    color: #056043;
+}
+
+.stat-info h6 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.stat-info h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* ========== CURRENT PICKUP CARD ========== */
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #e8ecf0;
+    margin-bottom: 28px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.section-header h5 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.section-header h5 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.section-header .badge-count {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #056043;
+}
+
+/* ========== PICKUP INFO GRID ========== */
+.pickup-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.pickup-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pickup-info-item .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.pickup-info-item .value {
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* ========== TABLE STYLES ========== */
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    min-width: 500px;
+}
+
+.table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 16px;
+}
+
+.table td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+}
+
+.badge-warning  { background: #fef3c7; color: #d97706; }
+.badge-success  { background: #d1fae5; color: #056043; }
+.badge-primary  { background: #dbeafe; color: #1d4ed8; }
+.badge-info     { background: #e0f2fe; color: #0369a1; }
+.badge-secondary{ background: #f1f5f9; color: #475569; }
+.badge-dark     { background: #1e293b; color: #f8fafc; }
+
+/* ========== ALERT ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -300px;
+        width: 280px;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 12px;
+    }
+
+    .pickup-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 12px 16px;
+    }
+
+    .welcome-text h4 {
+        font-size: 1rem;
+    }
+
+    .section-card {
+        padding: 16px;
+    }
+
+    .table th, .table td {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main { padding: 15px; }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-hard-hat"></i> Agent Panel</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'agent_dashboard' %}" class="active">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'assigned_pickups' %}">
+        <i class="fas fa-list"></i> Assigned Pickups
+    </a>
+    <a href="{% url 'pickup_history' %}">
+        <i class="fas fa-history"></i> Pickup History
+    </a>
+    <a href="{% url 'agent_salary' %}">
+        <i class="fas fa-wallet"></i> My Salary
+    </a>
+    <a href="{% url 'agent_profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="welcome-text">
+            <h4><i class="fas fa-hard-hat"></i> Welcome, {{ agent.username }}</h4>
+            <p><i class="fas fa-map-marker-alt"></i> Agent Overview & Assignments</p>
+        </div>
+        <button class="btn d-md-none" onclick="toggleSidebar()" style="background:#056043; color:white; border:none; border-radius:10px;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+    <!-- MESSAGES -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <div class="stat-info">
+                <h6>Total Assigned</h6>
+                <h3>{{ assigned_requests }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h6>Completed</h6>
+                <h3>{{ completed_requests }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- CURRENT PICKUP CARD -->
+    {% if latest_pickup %}
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-truck"></i> Current Pickup</h5>
+            <span class="badge-count">
+                <i class="fas fa-map-pin me-1"></i> Active
+            </span>
+        </div>
+
+        <div class="pickup-info-grid">
+            <div class="pickup-info-item">
+                <span class="label"><i class="fas fa-user me-1"></i> Customer</span>
+                <span class="value">{{ latest_pickup.customer.username }}</span>
+            </div>
+            <div class="pickup-info-item">
+                <span class="label"><i class="fas fa-phone me-1"></i> Phone</span>
+                <span class="value">{{ latest_pickup.customer.phone_no }}</span>
+            </div>
+            <div class="pickup-info-item">
+                <span class="label"><i class="fas fa-map-marker-alt me-1"></i> Address</span>
+                <span class="value">{{ latest_pickup.pickup_address }}, {{ latest_pickup.area.area_name }}, {{ latest_pickup.zone.zone_name }}, Ahmedabad</span>
+            </div>
+            <div class="pickup-info-item">
+                <span class="label"><i class="fas fa-info-circle me-1"></i> Status</span>
+                <span class="value">
+                    <span class="badge badge-primary">{{ latest_pickup.status }}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- RECENT PICKUPS TABLE -->
+    <div class="section-card">
+        <div class="section-header">
+            <h5><i class="fas fa-history"></i> Recent Assigned Pickups</h5>
+            <span class="badge-count">
+                <i class="fas fa-clipboard-list me-1"></i> Latest
+            </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in recent_pickups %}
+                    <tr>
+                        <td><strong>{{ forloop.counter }}</strong></td>
+                        <td>
+                            <i class="fas fa-user-circle text-muted me-2"></i>
+                            {{ p.customer.username }}
+                        </td>
+                        <td>
+                            {% if p.status == "Pending" %}
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-hourglass-half me-1"></i> Pending
+                                </span>
+                            {% elif p.status == "Assigned" %}
+                                <span class="badge badge-primary">
+                                    <i class="fas fa-user-check me-1"></i> Assigned
+                                </span>
+                            {% elif p.status == "Started" %}
+                                <span class="badge badge-info">
+                                    <i class="fas fa-play-circle me-1"></i> Started
+                                </span>
+                            {% elif p.status == "Verified" %}
+                                <span class="badge badge-secondary">
+                                    <i class="fas fa-shield-alt me-1"></i> Verified
+                                </span>
+                            {% elif p.status == "Completed" %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check-circle me-1"></i> Completed
+                                </span>
+                            {% else %}
+                                <span class="badge badge-dark">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <i class="fas fa-calendar-alt text-muted me-1"></i>
+                            {{ p.request_time|date:"d M Y" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h6>No Assigned Pickups</h6>
+                            <p class="text-muted">No pickups have been assigned yet.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn');
+
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
+
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+<title>Agent Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/agent_dashboard.css' %}">
+
+<style>
+
+body{
+background:#f4f6f9;
+font-family:Segoe UI;
+}
+
+/* MAIN */
+.main{
+margin-left:240px;
+padding:20px;
+}
+
+/* MOBILE FIX */
+@media (max-width:768px){
+
+.main{
+    margin-left:0;
+    padding:10px;
+}
+
+.sidebar{
+    position:fixed;
+    left:-250px;
+    top:0;
+    width:250px;
+    height:100%;
+    background:#198754;
+    transition:0.3s;
+    z-index:1000;
+}
+
+.sidebar.show{
+    left:0;
+}
+
+.overlay{
+    display:none;
+}
+
+.overlay.show{
+    display:block;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    top:0;
+    left:0;
+    z-index:999;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h4>AGENT PANEL</h4>
+
+<a class="active" href="{% url 'agent_dashboard' %}"><i class="fa fa-home"></i> Dashboard</a>
+<a href="{% url 'assigned_pickups' %}"><i class="fa fa-list"></i> Assigned Pickups</a>
+<a href="{% url 'pickup_history' %}"><i class="fa fa-history"></i> Pickup History</a>
+<a href="{% url 'agent_salary' %}"><i class="fa fa-wallet"></i> My Salary</a>
+<a href="{% url 'agent_profile' %}"><i class="fa fa-user"></i> Profile</a>
+<a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- TOPBAR -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+<button class="btn btn-success d-md-none" onclick="toggleSidebar()">☰</button>
+<h4 class="mb-0">Welcome, {{ agent.username }}</h4>
+</div>
+
+<!-- ALERTS -->
+{% if messages %}
+<div class="container mt-2">
+    {% for message in messages %}
+    
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- CARDS -->
+<div class="row g-3">
+
+<div class="col-lg-4 col-md-6 col-12">
+<div class="info-box">
+<i class="fa fa-truck"></i>
+<div>
+<h6>Total Assigned</h6>
+<h3>{{ assigned_requests }}</h3>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4 col-md-6 col-12">
+<div class="info-box">
+<i class="fa fa-clock"></i>
+<div>
+<h6>Pending</h6>
+<h3>{{ pending_requests }}</h3>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4 col-md-6 col-12">
+<div class="info-box">
+<i class="fa fa-check-circle"></i>
+<div>
+<h6>Completed</h6>
+<h3>{{ completed_requests }}</h3>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Customer CARD -->
+{% if latest_pickup %}
+<div class="card shadow-sm mt-3 p-3">
+
+<h5 class="mb-3 text-success">
+<i class="fa fa-truck"></i> Current Pickup
+</h5>
+
+<div class="row">
+
+<div class="col-md-6">
+<p><strong>Customer:</strong> {{ latest_pickup.customer.username }}</p>
+<p><strong>Phone:</strong> {{ latest_pickup.customer.phone_no }}</p>
+{% comment %} <p><strong>City:</strong> {{ latest_pickup.city }}</p> {% endcomment %}
+
+{% comment %} 
+
+<p><strong>Address:</strong> {{ latest_pickup.pickup_address }}, {{ latest_pickup.area.area_name }}, {{ latest_pickup.zone.zone_name }}, Ahmedabad</p>
+<p><strong>Status:</strong> 
+<span class="badge bg-primary">{{ latest_pickup.status }}</span>
+</p>
+</div>
+
+</div>
+
+</div>
+{% endif %}
+
+<!-- TABLE -->
+<div class="card-custom mt-4 p-3">
+
+<h5>Recent Assigned Pickups</h5>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Customer</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for p in recent_pickups %}
+<tr>
+
+<td>{{ forloop.counter }}</td>
+<td>{{ p.customer.username }}</td>
+
+<td>
+{% if p.status == "Pending" %}
+<span class="badge bg-warning text-dark">Pending</span>
+
+{% elif p.status == "Assigned" %}
+<span class="badge bg-primary">Assigned</span>
+
+{% elif p.status == "Started" %}
+<span class="badge bg-info text-dark">Started</span>
+
+{% elif p.status == "Verified" %}
+<span class="badge bg-secondary">Verified</span>
+
+{% elif p.status == "Completed" %}
+<span class="badge bg-success">Completed</span>
+
+{% else %}
+<span class="badge bg-dark">{{ p.status }}</span>
+{% endif %}
+</td>
+
+
+<td>{{ p.request_time|date:"d M Y" }}</td>
+
+</tr>
+
+{% empty %}
+<tr>
+<td colspan="4" class="text-center text-muted">
+No Assigned Pickups
+</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+</script>
+
+</body>
+</html> {% endcomment %} 

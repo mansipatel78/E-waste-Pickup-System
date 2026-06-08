@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Profile - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: #2d2d44; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4a6a; border-radius: 5px; }
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+    font-size: 1.2rem;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== ALERT ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* ========== PROFILE CARD ========== */
+.profile-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #e8ecf0;
+}
+
+/* LEFT PANEL */
+.profile-sidebar {
+    background: #f8fafc;
+    padding: 36px 24px;
+    text-align: center;
+    border-right: 1px solid #e8ecf0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, #056043 0%, #0a7a55 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 24px rgba(5,96,67,0.22);
+}
+
+.profile-avatar span {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.profile-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px;
+}
+
+.profile-role {
+    background: rgba(5,96,67,0.1);
+    color: #056043;
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.profile-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #e8ecf0;
+    margin: 24px 0;
+}
+
+.profile-meta {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: #475569;
+    word-break: break-word;
+}
+
+.meta-item .meta-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(5,96,67,0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #056043;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.status-badge {
+    background: #d1fae5;
+    color: #056043;
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* RIGHT PANEL */
+.profile-form {
+    padding: 36px 32px;
+}
+
+.form-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.form-title i {
+    margin-right: 8px;
+    color: #056043;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group label i {
+    margin-right: 6px;
+    color: #056043;
+}
+
+.form-control {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.87rem;
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+    outline: none;
+    background: white;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn-update {
+    background: #056043;
+    border: none;
+    padding: 13px 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    width: 100%;
+    color: white;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.btn-update:hover {
+    background: #044d36;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5,96,67,0.25);
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+    .sidebar { left: -300px; width: 280px; }
+    .sidebar.show { left: 0; }
+
+    .main { margin-left: 0; padding: 20px; }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .overlay.show { display: block; }
+
+    .topbar { padding: 12px 16px; }
+    .welcome-text h4 { font-size: 1rem; }
+
+    .profile-sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e8ecf0;
+        padding: 28px 20px;
+    }
+
+    .profile-form { padding: 24px 20px; }
+}
+
+@media (max-width: 480px) {
+    .main { padding: 15px; }
+
+    .profile-avatar { width: 90px; height: 90px; }
+    .profile-avatar span { font-size: 1.8rem; }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-recycle"></i> EPS Panel</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'customer_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'request_pickup' %}">
+        <i class="fas fa-truck"></i> Request Pickup
+    </a>
+    <a href="{% url 'my_request' %}">
+        <i class="fas fa-list"></i> My Requests
+    </a>
+    <a href="{% url 'customer_payment' %}">
+        <i class="fas fa-money-bill-wave"></i> Payments
+    </a>
+    <a href="{% url 'feedback' %}">
+        <i class="fas fa-star"></i> Feedback
+    </a>
+    <a href="{% url 'profile' %}" class="active">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="welcome-text">
+            <h4><i class="fas fa-user-circle"></i> My Profile</h4>
+            <p><i class="fas fa-id-card"></i> Manage your account information</p>
+        </div>
+        <button class="btn d-md-none" onclick="toggleSidebar()" style="background:#056043; color:white; border:none; border-radius:10px;">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+    <!-- MESSAGES -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+        <div class="row g-0">
+
+            <!-- LEFT: Avatar & Info -->
+            <div class="col-md-4">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <span>{{ initials }}</span>
+                    </div>
+                    <h4 class="profile-name">{{ user.username }}</h4>
+                    <span class="profile-role">
+                        <i class="fas fa-tag me-1"></i> {{ user.role|default:"Customer" }}
+                    </span>
+
+                    <hr class="profile-divider">
+
+                    <div class="profile-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon"><i class="fas fa-envelope"></i></span>
+                            {{ user.email }}
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"><i class="fas fa-phone"></i></span>
+                            {{ user.phone_no }}
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"><i class="fas fa-map-marker-alt"></i></span>
+                            {{ user.address }}
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"><i class="fas fa-shield-alt"></i></span>
+                            <span class="status-badge">
+                                <i class="fas fa-check-circle"></i> Active
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Edit Form -->
+            <div class="col-md-8">
+                <div class="profile-form">
+                    <div class="form-title">
+                        <i class="fas fa-edit"></i> Edit Profile Information
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Username</label>
+                            <input type="text" name="username" value="{{ user.username }}" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" name="phone" value="{{ user.phone_no }}" class="form-control" placeholder="Enter your phone number">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                            <textarea name="address" class="form-control" placeholder="Enter your complete address">{{ user.address }}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn-update">
+                            <i class="fas fa-save"></i> Update Profile
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn');
+
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

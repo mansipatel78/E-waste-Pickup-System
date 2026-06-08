@@ -1,0 +1,602 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - E-Waste Pickup System{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ========== HERO ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+        padding: 90px 0 80px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, rgba(46,204,113,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(46,204,113,0.12);
+        border: 1px solid rgba(46,204,113,0.25);
+        color: #2ecc71;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 6px 16px;
+        border-radius: 30px;
+        margin-bottom: 22px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        letter-spacing: -1px;
+        margin-bottom: 20px;
+    }
+
+    .hero-title span { color: #2ecc71; }
+
+    .hero-subtitle {
+        color: rgba(255,255,255,0.62);
+        font-size: 1.05rem;
+        line-height: 1.75;
+        margin-bottom: 36px;
+        max-width: 480px;
+    }
+
+    .hero-btn-primary {
+        background: #056043;
+        color: #fff;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition: background 0.25s, box-shadow 0.25s;
+    }
+
+    .hero-btn-primary:hover {
+        background: #2ecc71;
+        color: #1a1a2e;
+        box-shadow: 0 10px 25px rgba(46,204,113,0.3);
+    }
+
+    .hero-btn-outline {
+        background: transparent;
+        color: rgba(255,255,255,0.8);
+        border: 1.5px solid rgba(255,255,255,0.2);
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition: border-color 0.25s, color 0.25s, background 0.25s;
+    }
+
+    .hero-btn-outline:hover {
+        border-color: #2ecc71;
+        color: #2ecc71;
+        background: rgba(46,204,113,0.07);
+    }
+
+    .hero-img-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-img-bg {
+        position: absolute;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(46,204,113,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .hero-img-wrap img {
+        position: relative;
+        z-index: 1;
+        max-height: 340px;
+        width: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+    }
+
+    /* ========== SECTION HELPERS ========== */
+    .section-wrap { padding: 80px 0; }
+
+    .section-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #056043;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        margin-bottom: 12px;
+    }
+
+    .section-sub { color: #64748b; font-size: 0.95rem; }
+
+    /* ========== FEATURES ========== */
+    .features-bg { background: #eef2f7; }
+
+    .feature-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 32px 24px;
+        border: 1px solid #e8ecf0;
+        height: 100%;
+        transition: box-shadow 0.3s, border-color 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #056043, #2ecc71);
+    }
+
+    .feature-card:hover {
+        box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+        border-color: rgba(5,96,67,0.15);
+    }
+
+    .feature-icon-wrap {
+        width: 56px;
+        height: 56px;
+        background: rgba(5,96,67,0.08);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .feature-icon-wrap i { font-size: 1.4rem; color: #056043; }
+    .feature-card h4 { font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
+    .feature-card p  { font-size: 0.85rem; color: #64748b; line-height: 1.65; margin: 0; }
+
+    /* ========== HOW IT WORKS ========== */
+    .steps-section {
+    padding: 70px 0;
+}
+
+.step-card {
+    text-align: center;
+    padding: 10px;
+}
+
+.step-num {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #056043, #0a8a5f);
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 20px rgba(5,96,67,0.25);
+    position: relative;
+}
+
+.step-card h4 {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.step-card p {
+    font-size: 0.83rem;
+    color: #64748b;
+    margin: 0;
+}
+
+    /* ========== EWASTE TYPES ========== */
+    .ewaste-bg { background: #eef2f7; }
+
+    .waste-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 28px 20px;
+        border: 1px solid #e8ecf0;
+        text-align: center;
+        height: 100%;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .waste-card:hover {
+        box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        border-color: rgba(5,96,67,0.2);
+    }
+
+    .waste-card i     { font-size: 2.2rem; color: #056043; margin-bottom: 16px; display: block; }
+    .waste-card h5    { font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+    .waste-card p     { font-size: 0.8rem; color: #64748b; margin-bottom: 14px; line-height: 1.55; }
+
+    .price-badge {
+        background: rgba(5,96,67,0.09);
+        color: #056043;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 14px;
+        border-radius: 20px;
+        border: 1px solid rgba(5,96,67,0.15);
+        display: inline-block;
+    }
+
+    /* ========== STATS ========== */
+    .stats-section {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        padding: 70px 0;
+    }
+
+    .stat-item { text-align: center; padding: 10px; }
+
+    .stat-item h2 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #2ecc71;
+        letter-spacing: -1px;
+        margin-bottom: 6px;
+    }
+
+    .stat-item p {
+        color: rgba(255,255,255,0.6);
+        font-size: 0.88rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    /* ========== CTA ========== */
+    .cta-section { padding: 80px 0; background: #fff; }
+
+    .cta-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 28px;
+        padding: 60px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(46,204,113,0.12);
+    }
+
+    .cta-card::before {
+        content: '';
+        position: absolute;
+        top: -100px; right: -100px;
+        width: 350px; height: 350px;
+        background: radial-gradient(circle, rgba(46,204,113,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .cta-card h2 {
+        font-size: 2.2rem; font-weight: 800; color: #fff;
+        letter-spacing: -0.5px; margin-bottom: 14px;
+        position: relative; z-index: 1;
+    }
+
+    .cta-card p {
+        color: rgba(255,255,255,0.6); font-size: 1rem;
+        margin-bottom: 36px; position: relative; z-index: 1;
+    }
+
+    .cta-btn-primary {
+        background: #2ecc71; color: #1a1a2e;
+        border: none; padding: 14px 36px; border-radius: 12px;
+        font-weight: 700; font-size: 0.95rem; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 9px;
+        transition: background 0.25s, box-shadow 0.25s;
+        position: relative; z-index: 1;
+    }
+
+    .cta-btn-primary:hover {
+        background: #27ae60; color: #fff;
+        box-shadow: 0 12px 28px rgba(46,204,113,0.35);
+    }
+
+    .cta-btn-outline {
+        background: transparent; color: rgba(255,255,255,0.8);
+        border: 1.5px solid rgba(255,255,255,0.2);
+        padding: 14px 36px; border-radius: 12px;
+        font-weight: 600; font-size: 0.95rem; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 9px;
+        transition: border-color 0.25s, color 0.25s, background 0.25s;
+        position: relative; z-index: 1;
+    }
+
+    .cta-btn-outline:hover {
+        border-color: #2ecc71; color: #2ecc71;
+        background: rgba(46,204,113,0.07);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 992px) {
+        .hero-title { font-size: 2.2rem; }
+        .hero-section { padding: 60px 0; }
+        .hero-img-wrap { margin-top: 40px; }
+        .step-connector { display: none; }
+        .hero-img-bg { width: 280px; height: 280px; }
+    }
+
+    @media (max-width: 768px) {
+        .hero-title { font-size: 1.8rem; }
+        .section-title { font-size: 1.6rem; }
+        .stat-item h2 { font-size: 2.2rem; }
+        .cta-card { padding: 40px 20px; }
+        .cta-card h2 { font-size: 1.6rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-badge">
+                    <i class="fas fa-leaf"></i> Eco-Friendly Disposal
+                </div>
+                <h1 class="hero-title">
+                    Responsible <span>E-Waste</span><br>Disposal Made Easy
+                </h1>
+                <p class="hero-subtitle">
+                    Schedule doorstep pickup of your electronic waste. Get paid instantly.
+                    Contribute to a cleaner, greener environment.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'request_pickup' %}" class="hero-btn-primary">
+                            <i class="fas fa-plus-circle"></i> Request Pickup
+                        </a>
+                    {% else %}
+                        <a href="{% url 'signup' %}" class="hero-btn-primary">
+                            <i class="fas fa-user-plus"></i> Get Started Free
+                        </a>
+                    {% endif %}
+     
+                </div>
+            </div>
+
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="hero-img-wrap">
+                    <div class="hero-img-bg"></div>
+                    <img src="{% static 'images/wasteimage.png' %}" alt="E-Waste Pickup">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="section-wrap features-bg">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">Why EPS</p>
+            <h2 class="section-title">Why Choose EPS?</h2>
+            <p class="section-sub">We make e-waste disposal simple, profitable, and eco-friendly</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="feature-card">
+                    <div class="feature-icon-wrap"><i class="fas fa-home"></i></div>
+                    <h4>Doorstep Pickup</h4>
+                    <p>Schedule pickup from your home or office at your convenience.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="feature-card">
+                    <div class="feature-icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+                    <h4>Real-time Tracking</h4>
+                    <p>Track your pickup agent in real-time using GPS technology.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="feature-card">
+                    <div class="feature-icon-wrap"><i class="fas fa-money-bill-wave"></i></div>
+                    <h4>Instant Payment</h4>
+                    <p>Get paid instantly for your e-waste through secure payment methods.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="feature-card">
+                    <div class="feature-icon-wrap"><i class="fas fa-leaf"></i></div>
+                    <h4>Eco-friendly</h4>
+                    <p>100% safe recycling at authorized centers. Zero landfill disposal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="steps-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How It <span>Works</span></h2>
+            <p class="section-subtitle">Simple 4-step process from request to payment</p>
+        </div>
+
+        <div class="row steps-row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Register</h4>
+                    <p>Create your free account as customer, agent, or recycling hub.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Schedule</h4>
+                    <p>Request pickup with date, time, and e-waste details.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Pickup</h4>
+                    <p>Agent visits your location, verifies and collects the waste.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Payment</h4>
+                    <p>Receive instant payment and recycling certificate.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== E-WASTE TYPES ===== -->
+<section class="section-wrap ewaste-bg">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">What We Accept</p>
+            <h2 class="section-title">E-Waste We Collect</h2>
+            <p class="section-sub">We accept a wide range of electronic waste items</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h5>Mobile Phones & Tablets</h5>
+                    <p>Smartphones, feature phones, tablets, iPads</p>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-laptop"></i>
+                    <h5>Laptops & Computers</h5>
+                    <p>Laptops, desktops, servers, workstations</p>
+     
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-tv"></i>
+                    <h5>Televisions & Monitors</h5>
+                    <p>LED, LCD, plasma TVs, computer monitors</p>
+          
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-print"></i>
+                    <h5>Printers & Scanners</h5>
+                    <p>Inkjet, laser printers, scanners, copiers</p>
+      
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-battery-full"></i>
+                    <h5>Batteries & Chargers</h5>
+                    <p>Phone batteries, power banks, UPS batteries</p>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="waste-card">
+                    <i class="fas fa-blender"></i>
+                    <h5>Home Appliances</h5>
+                    <p>Microwaves, mixers, toasters, hair dryers</p>
+  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-item"><h2>500+</h2><p>Happy Customers</p></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item"><h2>2.5K+</h2><p>E-Waste Items</p></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item"><h2>50+</h2><p>Active Agents</p></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item"><h2>5+</h2><p>Recycling Hubs</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card">
+            <h2>Ready to Dispose Your E-Waste?</h2>
+            <p>Join thousands of environmentally conscious people making a difference.</p>
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'request_pickup' %}" class="cta-btn-primary">
+                        <i class="fas fa-recycle"></i> Request Pickup Now
+                    </a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="cta-btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up Free
+                    </a>
+                    <a href="{% url 'login' %}" class="cta-btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

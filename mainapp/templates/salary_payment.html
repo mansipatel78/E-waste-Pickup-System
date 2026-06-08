@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Salary Payment - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
+
+/* ========== PAYMENT WRAPPER ========== */
+.payment-wrapper {
+    width: 100%;
+    max-width: 460px;
+}
+
+/* ========== BRAND HEADER ========== */
+.brand-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brand-header .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #1a1a2e;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.brand-header .brand-logo i {
+    color: #2ecc71;
+    font-size: 1rem;
+}
+
+/* ========== CARD ========== */
+.payment-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+/* ========== CARD HEADER ========== */
+.card-top {
+    background: #1a1a2e;
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-top h5 {
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-top h5 i {
+    color: #2ecc71;
+}
+
+.recipient-badge {
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.3);
+    color: #2ecc71;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ========== CARD BODY ========== */
+.card-body-custom {
+    padding: 28px;
+}
+
+/* ========== AMOUNT BOX ========== */
+.amount-box {
+    background: linear-gradient(135deg, #056043 0%, #0a8a5f 100%);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.amount-box::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+}
+
+.amount-box::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+}
+
+.amount-box .label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.amount-box .month-tag {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.amount-box h3 {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== SECTION LABEL ========== */
+.section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+/* ========== OTP SECTION ========== */
+.otp-section {
+    background: #f8fafc;
+    border: 1px solid #e8ecf0;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.btn-send-otp {
+    width: 100%;
+    background: transparent;
+    border: 2px solid #056043;
+    color: #056043;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-send-otp:hover:not(:disabled) {
+    background: #056043;
+    color: white;
+}
+
+.btn-send-otp:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.otp-input-wrap label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.otp-input-wrap input {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-family: 'Inter', monospace;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+    transition: 0.2s;
+    outline: none;
+    color: #1e293b;
+}
+
+.otp-input-wrap input:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+}
+
+/* ========== ACTION BUTTONS ========== */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-confirm {
+    flex: 1;
+    background: #056043;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-confirm:hover {
+    background: #044d36;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5,96,67,0.3);
+    color: white;
+}
+
+.btn-cancel {
+    flex: 1;
+    background: transparent;
+    color: #64748b;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-cancel:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+/* ========== FOOTER NOTE ========== */
+.secure-note {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.secure-note i {
+    color: #056043;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 480px) {
+    body { padding: 15px; align-items: flex-start; padding-top: 30px; }
+    .card-top { padding: 18px 20px; }
+    .card-body-custom { padding: 20px; }
+    .amount-box h3 { font-size: 2rem; }
+    .action-buttons { flex-direction: column; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="payment-wrapper">
+
+    <!-- BRAND -->
+    <div class="brand-header">
+        <div class="brand-logo">
+            <i class="fas fa-chart-line"></i> EPS Admin — E-Waste Pickup System
+        </div>
+    </div>
+
+    <!-- ALERTS -->
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- PAYMENT CARD -->
+    <div class="payment-card">
+
+        <!-- CARD TOP -->
+        <div class="card-top">
+            <h5>
+                <i class="fas fa-wallet"></i> Salary Payment
+            </h5>
+            <div class="recipient-badge">
+                <i class="fas fa-hard-hat"></i>
+                Admin → {{ salary.agent.username }}
+            </div>
+        </div>
+
+        <!-- CARD BODY -->
+        <div class="card-body-custom">
+
+            <!-- AMOUNT -->
+            <div class="amount-box">
+                <div class="label">Salary Amount</div>
+                <h3>₹{{ salary.amount }}</h3>
+                <div class="month-tag">
+                    <i class="fas fa-calendar-alt me-1"></i> {{ salary.month }}
+                </div>
+            </div>
+
+            <!-- FORM -->
+            <form method="POST" action="{% url 'salary_payment_success' salary.id %}">
+                {% csrf_token %}
+
+                <!-- OTP SECTION -->
+                <div class="otp-section">
+                    <div class="section-label">
+                        <i class="fas fa-shield-alt me-1"></i> OTP Verification
+                    </div>
+
+                    <button type="button" class="btn-send-otp" onclick="sendOTP(this)">
+                        <i class="fas fa-paper-plane"></i> Send OTP
+                    </button>
+
+                    <div class="otp-input-wrap">
+                        <label>Enter OTP</label>
+                        <input type="text" name="otp" placeholder="— — — — — —" maxlength="6">
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="action-buttons">
+                    <button type="submit" class="btn-confirm">
+                        <i class="fas fa-check-circle"></i> Confirm Payment
+                    </button>
+                    <a href="{% url 'admin_salary' %}" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- SECURE NOTE -->
+            <div class="secure-note">
+                <i class="fas fa-lock"></i>
+                Payments are encrypted and secured by EPS
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function sendOTP(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    btn.disabled = true;
+
+    fetch("{% url 'send_salary_otp' salary.id %}")
+        .then(res => res.json())
+        .then(data => {
+            btn.innerHTML = '<i class="fas fa-check"></i> OTP Sent Successfully';
+            btn.style.background = '#056043';
+            btn.style.color = 'white';
+        })
+        .catch(() => {
+            btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed. Retry';
+            btn.disabled = false;
+        });
+}
+</script>
+
+</body>
+</html>

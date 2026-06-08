@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment Successful - EPS</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
+
+/* ========== WRAPPER ========== */
+.success-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+/* ========== BRAND ========== */
+.brand-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #1a1a2e;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.brand-logo i {
+    color: #2ecc71;
+}
+
+/* ========== CARD ========== */
+.success-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: center;
+}
+
+/* ========== TOP STRIP ========== */
+.card-top-strip {
+    background: linear-gradient(135deg, #056043 0%, #0a8a5f 100%);
+    padding: 36px 28px 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-top-strip::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 130px; height: 130px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+}
+
+.card-top-strip::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -30px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+}
+
+/* ========== CHECK ICON ========== */
+.check-circle {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+}
+
+.check-circle i {
+    font-size: 2rem;
+    color: white;
+}
+
+@keyframes pop {
+    0%   { transform: scale(0); opacity: 0; }
+    70%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.card-top-strip h4 {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.card-top-strip p {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.8rem;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== CARD BODY ========== */
+.card-body-custom {
+    padding: 28px;
+}
+
+/* ========== TXN BOX ========== */
+.txn-box {
+    background: #f8fafc;
+    border: 1px solid #e8ecf0;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+}
+
+.txn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.txn-row .txn-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.txn-row .txn-value {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #056043;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+/* ========== BACK BUTTON ========== */
+.btn-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: #056043;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.btn-back:hover {
+    background: #044d36;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5,96,67,0.3);
+}
+
+/* ========== SECURE NOTE ========== */
+.secure-note {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.secure-note i {
+    color: #056043;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 480px) {
+    body { align-items: flex-start; padding-top: 30px; }
+    .card-top-strip { padding: 28px 20px 22px; }
+    .card-body-custom { padding: 20px; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="success-wrapper">
+
+    <!-- BRAND -->
+    <div class="brand-header">
+        <div class="brand-logo">
+            <i class="fas fa-chart-line"></i> EPS Admin — E-Waste Pickup System
+        </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="success-card">
+
+        <!-- TOP STRIP -->
+        <div class="card-top-strip">
+            <div class="check-circle">
+                <i class="fas fa-check"></i>
+            </div>
+            <h4>Payment Successful!</h4>
+            <p>Your transaction has been completed successfully.</p>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body-custom">
+
+            <!-- TXN ID BOX -->
+            <div class="txn-box">
+                <div class="txn-row">
+                    <span class="txn-label"><i class="fas fa-receipt me-1"></i> Transaction ID</span>
+                    <span class="txn-value">{{ txn_id }}</span>
+                </div>
+            </div>
+
+            <!-- BACK BUTTON -->
+            <a href="{% url 'admin_payments' %}" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Payments
+            </a>
+
+            <!-- SECURE NOTE -->
+            <div class="secure-note">
+                <i class="fas fa-lock"></i>
+                Payments are encrypted and secured by EPS
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

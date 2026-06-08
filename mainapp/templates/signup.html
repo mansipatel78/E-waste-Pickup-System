@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% block title %}Register - EPS{% endblock %}
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% block extra_css %}
+<style>
+    .signup-wrapper {
+        min-height: calc(100vh - 72px - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 15px;
+        background: #eef2f7;
+    }
+
+    .signup-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e8ecf0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+        padding: 36px 40px;
+        width: 100%;
+        max-width: 460px;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .form-header .brand-icon {
+        width: 54px;
+        height: 54px;
+        background: rgba(5, 96, 67, 0.1);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+    }
+
+    .form-header .brand-icon i {
+        font-size: 1.4rem;
+        color: #056043;
+    }
+
+    .form-header h1 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 5px;
+    }
+
+    .form-header p {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        margin: 0;
+    }
+
+    /* Input groups */
+    .input-group {
+        position: relative;
+        margin-bottom: 18px;
+    }
+
+    .input-field {
+        width: 100%;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 13px 44px 13px 14px;
+        font-size: 0.88rem;
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+        background: #f8fafc;
+        outline: none;
+        transition: all 0.2s;
+        display: block;
+    }
+
+    .input-field:focus {
+        border-color: #056043;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(5, 96, 67, 0.08);
+    }
+
+    .floting-label {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        font-size: 0.85rem;
+        color: #94a3b8;
+        pointer-events: none;
+        transition: all 0.2s;
+        background: transparent;
+        padding: 0 3px;
+        font-weight: 500;
+    }
+
+    .input-field:focus~.floting-label,
+    .input-field:not(:placeholder-shown)~.floting-label {
+        top: 0;
+        font-size: 0.68rem;
+        color: #056043;
+        background: white;
+        font-weight: 600;
+    }
+
+    .icon,
+    .eye-icon {
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #cbd5e1;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    .eye-icon {
+        cursor: pointer;
+        pointer-events: all;
+        transition: color 0.2s;
+    }
+
+    .eye-icon:hover {
+        color: #056043;
+    }
+
+    .icon svg,
+    .eye-icon svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    #msg {
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin: -10px 0 10px 2px;
+        min-height: 16px;
+    }
+
+    /* Submit button */
+    .form-btn-submit {
+        width: 100%;
+        background: #056043;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 13px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: 'Inter', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 4px;
+    }
+
+    .form-btn-submit:hover {
+        background: #044d36;
+        box-shadow: 0 4px 14px rgba(5, 96, 67, 0.25);
+    }
+
+    /* Bottom link */
+    .form-bottom {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 0.83rem;
+        color: #64748b;
+    }
+
+    .form-link {
+        color: #056043;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .form-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .signup-card {
+            padding: 28px 22px;
+        }
+
+        .form-header h1 {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="signup-wrapper">
+    <div class="signup-card">
+
+        <div class="form-header">
+            <div class="brand-icon">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <h1>Create Account</h1>
+            <p>Fill in the details below to get started</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <input type="text" id="username" placeholder="" class="input-field" name="username" required>
+                <label for="username" class="floting-label">Username</label>
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="5" />
+                        <path d="M20 21a8 8 0 0 0-16 0" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder="" class="input-field" name="email" required>
+                <label for="email" class="floting-label">Email Address</label>
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="phone_no" placeholder="" class="input-field" name="phone_no" required>
+                <label for="email" class="floting-label">Phone No.</label>
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-telephone" viewBox="0 0 16 16">
+                        <path
+                            d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder="" class="input-field" name="password" required>
+                <label for="password" class="floting-label">Password</label>
+                <div class="eye-icon" onclick="togglePassword('password', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="confirmpassword" placeholder="" class="input-field" name="confirmpassword"
+                    required>
+                <label for="confirmpassword" class="floting-label">Confirm Password</label>
+                <div class="eye-icon" onclick="togglePassword('confirmpassword', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+            </div>
+
+            <p id="msg"></p>
+
+            <button type="submit" class="form-btn-submit">Create Account</button>
+
+            <div class="form-bottom">
+                Already have an account? <a href="{% url 'login' %}" class="form-link">Login</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function togglePassword(fieldId, icon) {
+        const passwordInput = document.getElementById(fieldId);
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>';
+        } else {
+            passwordInput.type = "password";
+            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>';
+        }
+    }
+
+    const password = document.getElementById("password");
+    const confirmpassword = document.getElementById("confirmpassword");
+    const msg = document.getElementById("msg");
+
+    confirmpassword.addEventListener("keyup", function () {
+        if (password.value === confirmpassword.value) {
+            msg.innerText = "✓ Password match";
+            msg.style.color = "#056043";
+        } else {
+            msg.innerText = "✗ Password does not match";
+            msg.style.color = "#dc2626";
+        }
+    });
+</script>
+{% endblock %}

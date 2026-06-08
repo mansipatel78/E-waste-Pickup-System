@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Waste Pickup System{% endblock %}</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green-dark:  #056043;
+            --green-mid:   #2ecc71;
+            --navy:        #1a1a2e;
+            --navy-mid:    #16213e;
+            --bg:          #eef2f7;
+            --card-border: #e8ecf0;
+            --text-main:   #1e293b;
+            --text-muted:  #64748b;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background: var(--navy) !important;
+            padding: 14px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+            border-bottom: 2px solid rgba(46,204,113,0.15);
+        }
+
+        .navbar-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff !important;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            color: var(--green-mid);
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand span {
+            font-size: 0.65rem;
+            font-weight: 400;
+            opacity: 0.55;
+            display: block;
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 14px !important;
+            border-radius: 10px;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: rgba(46,204,113,0.12);
+            color: var(--green-mid) !important;
+        }
+
+        .navbar-nav .nav-link i {
+            font-size: 0.85rem;
+        }
+
+        /* Dropdown */
+        .dropdown-menu {
+            background: var(--navy-mid);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            min-width: 200px;
+        }
+
+        .dropdown-item {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item i {
+            width: 18px;
+            color: var(--green-mid);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(46,204,113,0.12);
+            color: var(--green-mid);
+        }
+
+        .dropdown-divider {
+            border-color: rgba(255,255,255,0.08);
+            margin: 6px 0;
+        }
+
+        /* Auth buttons in nav */
+        .nav-btn-login {
+            background: transparent;
+            border: 1.5px solid rgba(46,204,113,0.4);
+            color: var(--green-mid) !important;
+            padding: 7px 18px !important;
+            border-radius: 10px;
+            font-weight: 600 !important;
+            transition: all 0.25s;
+        }
+
+        .nav-btn-login:hover {
+            background: rgba(46,204,113,0.1) !important;
+            border-color: var(--green-mid);
+        }
+
+        .nav-btn-register {
+            background: var(--green-dark) !important;
+            color: #fff !important;
+            padding: 7px 18px !important;
+            border-radius: 10px;
+            font-weight: 600 !important;
+            transition: all 0.25s;
+        }
+
+        .nav-btn-register:hover {
+            background: var(--green-mid) !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: 1.5px solid rgba(46,204,113,0.35);
+            border-radius: 10px;
+            padding: 6px 10px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(46,204,113,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* ========== ALERT MESSAGES ========== */
+        .alert-wrap {
+            padding: 16px 0 0;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #056043;
+        }
+
+        .alert-danger, .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .alert-info {
+            background: #e0f2fe;
+            color: #0891b2;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        main.py-4 {
+            min-height: calc(100vh - 72px - 200px);
+        }
+
+        /* ========== FOOTER ========== */
+        footer.footer {
+            background: var(--navy) !important;
+            border-top: 2px solid rgba(46,204,113,0.12);
+            padding: 40px 0 20px !important;
+        }
+
+        .footer h5 {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer h5 i {
+            color: var(--green-mid);
+        }
+
+        .footer p {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.83rem;
+            line-height: 1.7;
+        }
+
+        .footer p i {
+            color: var(--green-mid);
+            width: 18px;
+        }
+
+        .footer .list-unstyled li {
+            margin-bottom: 8px;
+        }
+
+        .footer .list-unstyled a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.83rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .footer .list-unstyled a::before {
+            content: '›';
+            color: var(--green-mid);
+            font-size: 1rem;
+        }
+
+        .footer .list-unstyled a:hover {
+            color: var(--green-mid);
+        }
+
+        .footer hr {
+            border-color: rgba(255,255,255,0.08);
+            margin: 24px 0 16px;
+        }
+
+        .footer .text-center p {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.35);
+            margin: 0;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.25s;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-social a:hover {
+            background: rgba(46,204,113,0.15);
+            color: var(--green-mid);
+            border-color: rgba(46,204,113,0.3);
+        }
+
+        /* ========== SHARED UTILITY CLASSES ========== */
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 28px;
+            border: 1px solid var(--card-border);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-header h5 {
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .section-header h5 i {
+            margin-right: 10px;
+            color: var(--green-dark);
+        }
+
+        .btn-primary-custom {
+            background: var(--green-dark);
+            border: none;
+            padding: 12px 28px;
+            font-weight: 600;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--green-mid);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.7rem;
+        }
+
+        .badge-warning  { background: #fef3c7; color: #d97706; }
+        .badge-primary  { background: #dbeafe; color: #2563eb; }
+        .badge-info     { background: #e0f2fe; color: #0891b2; }
+        .badge-secondary{ background: #f1f5f9; color: #475569; }
+        .badge-success  { background: #d1fae5; color: #056043; }
+
+        .table th {
+            background: #f8fafc;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 16px;
+        }
+
+        .table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background: var(--navy-mid);
+                border-radius: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                border: 1px solid rgba(255,255,255,0.07);
+            }
+
+            .navbar-nav .nav-link {
+                padding: 10px 14px !important;
+            }
+
+            .dropdown-menu {
+                position: static !important;
+                margin-top: 6px;
+                box-shadow: none;
+            }
+
+            .section-card {
+                padding: 16px;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-recycle"></i>
+                <div>
+                    EPS
+                    <span>E-Waste Pickup System</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-4 gap-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'services' %}">
+                            <i class="fas fa-concierge-bell"></i> Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="fas fa-headset"></i> Contact Us
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav align-items-lg-center gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn-login" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn-login" href="{% url 'signup' %}">
+                                <i class="fas fa-user-plus"></i> Register
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ALERT MESSAGES -->
+    {% if messages %}
+    <div class="container alert-wrap">
+        {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'error' %}alert-danger
+            {% else %}alert-{{ message.tags }}
+            {% endif %} alert-dismissible fade show">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' or message.tags == 'danger' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+            {{ message }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- MAIN CONTENT -->
+    <main class="py-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-recycle"></i> EPS</h5>
+                    <p>E-Waste Pickup System — making responsible disposal easy for a cleaner, greener environment.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                   
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> L.J. College of Computer Applications<br><br>
+                        <i class="fas fa-phone"></i> +91 9876543210<br><br>
+                        <i class="fas fa-envelope"></i> info@eps.com
+                    </p>
+                </div>
+            </div>
+
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2026 E-Waste Pickup System &nbsp;|&nbsp; Group No: 39 &nbsp;|&nbsp; All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+
+
+
+</body>
+</html>

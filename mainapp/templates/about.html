@@ -1,0 +1,623 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - EPS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: -80px; left: 50%;
+        transform: translateX(-50%);
+        width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(46,204,113,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .about-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(46,204,113,0.12);
+        border: 1px solid rgba(46,204,113,0.25);
+        color: #2ecc71;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 6px 16px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+    }
+
+    .about-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .about-hero h1 span { color: #2ecc71; }
+
+    .about-hero p {
+        color: rgba(255,255,255,0.6);
+        font-size: 1rem;
+        max-width: 520px;
+        margin: 0 auto;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+    .section-wrap { padding: 80px 0; }
+
+    .section-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #056043;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        margin-bottom: 12px;
+    }
+
+    .section-sub { color: #64748b; font-size: 0.95rem; }
+
+    .mission-bg { background: #fff; }
+
+    .mission-text h2 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        margin-bottom: 20px;
+    }
+
+    .mission-text .lead {
+        font-size: 1rem;
+        color: #334155;
+        font-weight: 500;
+        line-height: 1.75;
+        margin-bottom: 16px;
+    }
+
+    .mission-text p {
+        color: #64748b;
+        font-size: 0.9rem;
+        line-height: 1.75;
+    }
+
+    .mission-point {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 18px 20px;
+        background: #f8fafc;
+        border-radius: 14px;
+        border: 1px solid #e8ecf0;
+        margin-bottom: 14px;
+    }
+
+    .mission-point-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(5,96,67,0.09);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .mission-point-icon i { color: #056043; font-size: 1.1rem; }
+
+    .mission-point h5 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+
+    .mission-point p {
+        font-size: 0.82rem;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .about-img {
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        width: 100%;
+        object-fit: cover;
+        border: 1px solid #e8ecf0;
+    }
+
+    .team-bg { background: #eef2f7; }
+
+    .team-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 32px 24px;
+        border: 1px solid #e8ecf0;
+        text-align: center;
+        height: 100%;
+        transition: box-shadow 0.3s, border-color 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .team-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 3px;
+        background: linear-gradient(90deg, #056043, #2ecc71);
+    }
+
+    .team-card:hover {
+        box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+        border-color: rgba(5,96,67,0.15);
+    }
+
+    .team-avatar {
+        width: 80px;
+        height: 80px;
+        background: rgba(5,96,67,0.09);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        border: 2px solid rgba(5,96,67,0.15);
+    }
+
+    .team-avatar i { font-size: 2rem; color: #056043; }
+
+    .team-card h5 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+
+    .team-roll {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        font-weight: 500;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .team-card .card-text {
+        font-size: 0.83rem;
+        color: #64748b;
+        margin-bottom: 18px;
+        line-height: 1.5;
+    }
+
+    .team-social a {
+        width: 32px;
+        height: 32px;
+        background: #f1f5f9;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #056043;
+        font-size: 0.8rem;
+        text-decoration: none;
+        margin: 0 3px;
+        transition: background 0.25s, color 0.25s;
+    }
+
+    .team-social a:hover {
+        background: #056043;
+        color: #fff;
+    }
+
+    .impact-bg { background: #fff; }
+
+    .impact-card {
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 32px 20px;
+        border: 1px solid #e8ecf0;
+        text-align: center;
+        height: 100%;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .impact-card:hover {
+        box-shadow: 0 12px 30px rgba(0,0,0,0.07);
+        border-color: rgba(5,96,67,0.2);
+    }
+
+    .impact-icon-wrap {
+        width: 64px;
+        height: 64px;
+        background: rgba(5,96,67,0.09);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+    }
+
+    .impact-icon-wrap i { font-size: 1.6rem; color: #056043; }
+
+    .impact-card h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        margin-bottom: 6px;
+    }
+
+    .impact-card p {
+        font-size: 0.83rem;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.5;
+    }
+    .partners-bg { background: #eef2f7; }
+
+    .partner-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 28px 20px;
+        border: 1px solid #e8ecf0;
+        text-align: center;
+        height: 100%;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .partner-card:hover {
+        box-shadow: 0 12px 30px rgba(0,0,0,0.07);
+        border-color: rgba(5,96,67,0.2);
+    }
+
+    .partner-icon-wrap {
+        width: 64px;
+        height: 64px;
+        background: rgba(5,96,67,0.09);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+    }
+
+    .partner-icon-wrap i { font-size: 1.6rem; color: #056043; }
+
+    .partner-card h5 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -100px; right: -100px;
+        width: 350px; height: 350px;
+        background: radial-gradient(circle, rgba(46,204,113,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .cta-section h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.5px;
+        margin-bottom: 14px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-section p {
+        color: rgba(255,255,255,0.6);
+        font-size: 1rem;
+        margin-bottom: 36px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-btn-primary {
+        background: #2ecc71;
+        color: #1a1a2e;
+        border: none;
+        padding: 14px 36px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition: background 0.25s, box-shadow 0.25s;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-btn-primary:hover {
+        background: #27ae60;
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(46,204,113,0.35);
+    }
+
+    .cta-btn-outline {
+        background: transparent;
+        color: rgba(255,255,255,0.8);
+        border: 1.5px solid rgba(255,255,255,0.2);
+        padding: 14px 36px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition: border-color 0.25s, color 0.25s, background 0.25s;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-btn-outline:hover {
+        border-color: #2ecc71;
+        color: #2ecc71;
+        background: rgba(46,204,113,0.07);
+    }
+
+    @media (max-width: 992px) {
+        .about-hero h1 { font-size: 2.1rem; }
+        .about-img { margin-top: 36px; }
+    }
+
+    @media (max-width: 768px) {
+        .about-hero h1 { font-size: 1.7rem; }
+        .section-title { font-size: 1.6rem; }
+        .cta-section h2 { font-size: 1.7rem; }
+        .section-wrap { padding: 60px 0; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="about-hero-badge">
+                    <i class="fas fa-recycle"></i> Our Story
+                </div>
+                <h1>About <span>E-Waste</span> Pickup System</h1>
+                <p>Making e-waste disposal responsible, rewarding, and eco-friendly</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-wrap mission-bg align-center">
+    <div class="container text-center mb-5">
+        <div class="row justify-content-center">
+            
+            <div class="col-lg-6 mission-text text-center">
+
+                <p class="section-label">Who We Are</p>
+                <h2>Our Mission</h2>
+
+                <p class="lead">
+                    To create a sustainable ecosystem for electronic waste management by connecting
+                    consumers, collectors, and recyclers through technology.
+                </p>
+
+                <p>
+                    EPS (E-Waste Pickup System) is a digital platform developed by students of
+                    L.J. College of Computer Applications to address the growing problem of
+                    electronic waste in urban areas.
+                </p>
+
+                <div class="mt-4">
+
+                    <div class="mission-point">
+                        <div class="mission-point-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div>
+                            <h5>Our Vision</h5>
+                            <p>A world where every electronic device is responsibly recycled</p>
+                        </div>
+                    </div>
+
+                    <div class="mission-point">
+                        <div class="mission-point-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div>
+                            <h5>Our Values</h5>
+                            <p>Sustainability, Transparency, Innovation, and Community</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="section-wrap team-bg">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">The People</p>
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-sub">Group No: 39 — L.J. College of Computer Applications</p>
+        </div>
+
+        <div class="row justify-content-center g-4">
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h5>Mansi Patel</h5>
+                    <span class="team-roll">Roll No: 89</span>
+                    <p class="card-text">Project Lead & Frontend Developer</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h5>Vrushti Patel</h5>
+                    <span class="team-roll">Roll No: 94</span>
+                    <p class="card-text">Backend Developer & Database Manager</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h5>Puja Solanki</h5>
+                    <span class="team-roll">Roll No: 127</span>
+                    <p class="card-text">UI/UX Designer & Documentation</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section-wrap impact-bg">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">Making a Difference</p>
+            <h2 class="section-title">Environmental Impact</h2>
+            <p class="section-sub">Our contribution to a cleaner planet</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="impact-card">
+                    <div class="impact-icon-wrap"><i class="fas fa-leaf"></i></div>
+                    <h3>2.5+ Tons</h3>
+                    <p>E-Waste diverted from landfills</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="impact-card">
+                    <div class="impact-icon-wrap"><i class="fas fa-tint"></i></div>
+                    <h3>50K+ Liters</h3>
+                    <p>Water saved from contamination</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="impact-card">
+                    <div class="impact-icon-wrap"><i class="fas fa-tree"></i></div>
+                    <h3>500+ Trees</h3>
+                    <p>Equivalent CO₂ reduction</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="impact-card">
+                    <div class="impact-icon-wrap"><i class="fas fa-users"></i></div>
+                    <h3>50+ Jobs</h3>
+                    <p>Created in green sector</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section-wrap partners-bg">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="section-label">Collaborations</p>
+            <h2 class="section-title">Our Partners</h2>
+            <p class="section-sub">Working together for a sustainable future</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 col-sm-6">
+                <div class="partner-card">
+                    <div class="partner-icon-wrap"><i class="fas fa-university"></i></div>
+                    <h5>L.J. College</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="partner-card">
+                    <div class="partner-icon-wrap"><i class="fas fa-industry"></i></div>
+                    <h5>Green Recycle Hub</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="partner-card">
+                    <div class="partner-icon-wrap"><i class="fas fa-city"></i></div>
+                    <h5>AMC Ahmedabad</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="partner-card">
+                    <div class="partner-icon-wrap"><i class="fas fa-seedling"></i></div>
+                    <h5>Eco Warriors NGO</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

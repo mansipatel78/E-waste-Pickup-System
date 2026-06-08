@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit User - EPS Admin</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f7;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ========== SIDEBAR STYLES ========== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 1000;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #2d2d44;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #4a4a6a;
+    border-radius: 5px;
+}
+
+.sidebar .logo {
+    padding: 25px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+}
+
+.sidebar .logo h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.sidebar .logo h4 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.sidebar .logo p {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 5px 0 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 12px;
+    margin: 4px 12px;
+    border-radius: 10px;
+}
+
+.sidebar a:hover {
+    background: rgba(46,204,113,0.12);
+    color: #2ecc71;
+}
+
+.sidebar a.active {
+    background: #056043;
+    color: white;
+}
+
+.sidebar a i {
+    width: 22px;
+    font-size: 1rem;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+    background: white;
+    padding: 16px 28px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8ecf0;
+}
+
+.welcome-text h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1e293b;
+}
+
+.welcome-text h4 i {
+    margin-right: 10px;
+    color: #056043;
+    font-size: 1.2rem;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* ========== FORM CARD ========== */
+.form-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid #e8ecf0;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.form-header h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.form-header h3 i {
+    margin-right: 10px;
+    color: #056043;
+}
+
+.back-link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.back-link:hover {
+    color: #056043;
+}
+
+/* ========== FORM STYLES ========== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: #056043;
+    width: 20px;
+}
+
+.form-control {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+    outline: none;
+}
+
+.form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    border-color: #056043;
+    box-shadow: 0 0 0 3px rgba(5,96,67,0.1);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Readonly/Disabled fields */
+.form-control[readonly] {
+    background: #f8fafc;
+    cursor: default;
+}
+
+/* ========== BUTTON ========== */
+.btn-update {
+    background: #056043;
+    border: none;
+    padding: 14px 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    width: 100%;
+    color: white;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+.btn-update:hover {
+    background: #0a7a55;
+    transform: translateY(-2px);
+}
+
+.btn-update i {
+    margin-right: 10px;
+}
+
+/* ========== ALERT ========== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -300px;
+        width: 280px;
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+    
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+    
+    .overlay.show {
+        display: block;
+    }
+    
+    .form-card {
+        padding: 20px;
+    }
+    
+    .topbar {
+        padding: 12px 16px;
+    }
+    
+    .welcome-text h4 {
+        font-size: 1rem;
+    }
+    
+    .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+    
+    .form-card {
+        padding: 16px;
+    }
+    
+    .form-control, .form-select {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">
+        <h4><i class="fas fa-chart-line"></i> EPS Admin</h4>
+        <p>E-Waste Pickup System</p>
+    </div>
+    <a href="{% url 'admin_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="{% url 'admin_user' %}" class="active">
+        <i class="fas fa-users"></i> Users
+    </a>
+    <a href="{% url 'admin_pickups' %}">
+        <i class="fas fa-truck"></i> Pickup Requests
+    </a>
+    <a href="{% url 'admin_payments' %}">
+        <i class="fas fa-money-bill-wave"></i>Customer Payments
+    </a>
+    <a href="{% url 'admin_settlements' %}">
+        <i class="fas fa-chart-line"></i> Hub Payments
+    </a>
+    <a href="{% url 'admin_salary' %}">
+        <i class="fas fa-money-bill"></i> Agent Salaries
+    </a>
+    <a href="{% url 'admin_reports' %}">
+        <i class="fas fa-chart-bar"></i> Reports
+    </a>
+    <a href="{% url 'admin_profile' %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="welcome-text">
+        <h4><i class="fas fa-user-edit"></i> Edit User</h4>
+        <p><i class="fas fa-pen"></i> Modify user account information</p>
+    </div>
+    <button class="btn btn-success d-md-none" onclick="toggleSidebar()" style="background:#056043; border:none;">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+</div>
+
+<!-- MESSAGES -->
+{% if messages %}
+<div class="container mt-2">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- EDIT USER FORM CARD -->
+<div class="form-card">
+    <div class="form-header">
+        <h3><i class="fas fa-user-pen"></i> Edit User Information</h3>
+        <a href="{% url 'admin_user' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Users List
+        </a>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" name="username" value="{{ user.username }}" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> New Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
+                    <small class="text-muted">Only enter if you want to change password</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" name="phone" value="{{ user.phone_no }}" class="form-control">
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> User Role</label>
+                    <select name="role" class="form-select">
+                        {% for r in roles %}
+                        <option value="{{ r.id }}"
+                            {% if user.role.id == r.id %}selected{% endif %}>
+                            {% if r.role_name == "Admin" %}
+                                👑 {{ r.role_name }}
+                            {% elif r.role_name == "Agent" %}
+                                🚚 {{ r.role_name }}
+                            {% elif r.role_name == "Hub" %}
+                                🏭 {{ r.role_name }}
+                            {% else %}
+                                👤 {{ r.role_name }}
+                            {% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <textarea name="address" class="form-control" rows="3">{{ user.address }}</textarea>
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn-update">
+            <i class="fas fa-save"></i> Update User
+        </button>
+    </form>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('show');
+    document.querySelector('.overlay').classList.toggle('show');
+}
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const menuBtn = document.querySelector('.topbar .btn-success');
+    
+    if (window.innerWidth <= 768) {
+        if (sidebar && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
